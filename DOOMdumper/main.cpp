@@ -136,8 +136,8 @@ int main(int argc, char** argv)
     if (argc > 1) {
         std::string argv_1(argv[1]);
         if (argv_1 == "--help" || argc > 2) {
-            std::cout << "UWP-DOOMdumper (cpp) by SEWsam, updated " << UPDATED << "\n";
-            std::cout << "Help -- Command line options\n"
+            std::cout << "DOOMdumper by SEWsam, updated " << UPDATED << "\n";
+            std::cout << "Help | Command line options\n"
                 << "\n";
             std::cout << "USAGE: " << argv[0] << " [OPTIONS]\n"
                 << "\n";
