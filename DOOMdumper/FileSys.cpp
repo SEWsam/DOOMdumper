@@ -40,10 +40,10 @@ void extractInjector(const std::string& path) // Note: there cannot be a blank '
         else
         {
             std::cout << "Extracted EternalModInjector!\n";
+            fs::create_directory(path + "\\Mods");
         }
 
         unzipper.close();
-        fs::create_directory(path + "\\Mods");
     }
     catch (const std::exception& e)
     {
