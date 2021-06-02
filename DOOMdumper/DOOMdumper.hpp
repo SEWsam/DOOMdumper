@@ -23,11 +23,7 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #include <iostream>
 #include <optional>
 #include <filesystem>
-#include <locale>
-#include <codecvt>
-#include <string>
 #include <Windows.h>
-#include <winreg.h>
 #include <winrt/Windows.ApplicationModel.h>
 #include <winrt/Windows.Management.Deployment.h>
 

@@ -20,11 +20,10 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #include <string>
 #include <filesystem>
 #include <fstream>
-#include <windows.h>
 #include <optional>
 #include <boost/locale.hpp>
-// #include <winreg.h>
-// #include <windows.h>
+#include <windows.h>
+#include <winreg.h>
 
 #include "DOOMdumper.hpp"
 #include "DebugTools.hpp"
