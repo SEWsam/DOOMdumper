@@ -16,6 +16,10 @@ This project also relies on [UWPdumper-lib](https://github.com/SEWsam/UWPDumper-
 
 The Visual Studio Solution should have everything setup from here, but just make sure that the Build Order has UWPInjector/Dumper and zipper above DOOMdumper.
 
+### Note for Zipper with Visual Studio: 
+You may have to add `CDirEntry.h` and `CDirEntry.cpp` to the zipper project, then change `#include <CDirEntry.h>` to `#include "CDirEntry.h"`.
+You will also need to change `zipper - tools::currentPath()` to use `_getcwd()` instead of `getcwd()`.
+
 
 ---
 ---
