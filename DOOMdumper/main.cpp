@@ -32,8 +32,8 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 namespace fs = std::filesystem;
 
-const std::string UPDATED = "2021-06-01";
-const uint64_t MIN_FREE = 80530636800;  // Minimum space, in bytes, required to dump DOOM Eternal
+const std::string UPDATED = "2021-06-02";
+const uint64_t MIN_FREE = 83751819391;  // Minimum space, in bytes, required to dump DOOM Eternal
 const winrt::PackageVersion GAME_VERSION{ 1, 0, 6, 0 };
 const std::string GAME_VERSION_STR
     = std::to_string(GAME_VERSION.Major) + "."
