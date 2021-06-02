@@ -40,6 +40,7 @@ extern const std::string UPDATED;
 extern const uint64_t MIN_FREE;
 extern const winrt::PackageVersion GAME_VERSION;
 extern const std::string GAME_VERSION_STR;
+extern const int GAME_VERSION_INT;
 
 // ANSI color stuff
 extern std::string RESET;

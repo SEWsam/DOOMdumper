@@ -18,6 +18,7 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 */
 #include <iostream>
 #include <string>
+#include <boost/algorithm/string.hpp>
 #include <filesystem>
 #include <fstream>
 #include <optional>
@@ -39,6 +40,7 @@ const std::string GAME_VERSION_STR
     + std::to_string(GAME_VERSION.Minor) + "."
     + std::to_string(GAME_VERSION.Build) + "."
     + std::to_string(GAME_VERSION.Revision);
+const int GAME_VERSION_INT = std::stoi(boost::replace_all_copy(GAME_VERSION_STR, ".", ""));
 
 // ANSI color stuff
 std::string RESET = "\033[0m";
