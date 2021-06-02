@@ -110,7 +110,7 @@ bool confirmPrompt(const std::string msg)
 
 std::string formattedSize(uint64_t bytesize)
 {
-    const std::string units[] = {"B", "KB", "MB", "GB", "TB", "PB"};  // PB should be enough . . .
+    const std::string units[] = {"B", "KB", "MB", "GB", "TB", "PB"};  // PB should be enough...
 
     int i = 0;
     while (bytesize > 1024) {
@@ -214,7 +214,7 @@ int main(int argc, char** argv)
     else if (devmode_result != EXIT_SUCCESS)
     {
         dbgs.dbgCout() << "Enabling devmode failed with status: " << devmode_result << "\n";
-        std::cout << RED << "\nExiting . . .\n" << RESET;
+        std::cout << RED << "\nExiting...\n" << RESET;
         return 1;
     }
 
@@ -223,17 +223,17 @@ int main(int argc, char** argv)
     if (pkg_result) {
         winrt::Package pkg = *pkg_result;
 
-        std::cout << "Checking game status . . .\n";
+        std::cout << "Checking game status...\n";
         if (!validatePackage(pkg)) {
-            std::cout << RED << "\nExiting . . .\n" << RESET;
+            std::cout << RED << "\nExiting...\n" << RESET;
             std::system("pause");
             return 1;
         }
         if (!pkg.IsDevelopmentMode()) { 
-            std::cout << "DOOM Eternal needs to be dumped to use mods . . .\n";
+            std::cout << "DOOM Eternal needs to be dumped to use mods...\n";
             path = getPath();
-            if (path.empty()) {  // Impossible to dump . . .
-                std::cout << RED << "\nExiting . . .\n" << RESET;
+            if (path.empty()) {  // Impossible to dump...
+                std::cout << RED << "\nExiting...\n" << RESET;
                 std::system("pause");
                 return 1;
             }
@@ -243,27 +243,27 @@ int main(int argc, char** argv)
 
             std::cout << "About to dump game. This can take " << RED << "20-40" << RESET << " minutes depending on if you have a HDD or SSD.\n";
             if (!confirmPrompt("Proceed?")) {
-                std::cout << "\nExiting . . .\n";
+                std::cout << "\nExiting...\n";
                 std::system("pause");
                 return 0;
             }
             if (!dumpWithStatus(pid, path)) {
-                std::cout << RED << "\nExiting . . .\n" << RESET;
+                std::cout << RED << "\nExiting...\n" << RESET;
                 std::system("pause");
                 return 1;
             }
             killProcessByPid(pid);
 
-            std::cout << "Preparing new installation . . .\n";
+            std::cout << "Preparing new installation...\n";
             if (!removePackage(pkg)) {
                 //todo: record path of dump for retry
-                std::cout << RED << "\nExiting . . .\n" << RESET;
+                std::cout << RED << "\nExiting...\n" << RESET;
                 std::system("pause");
                 return 1;
             }
             if (!registerPackage(stringToWstring(path) + L"appxmanifest.xml")) {
                 //todo: record path of dump for retry (take note of point of failure)
-                std::cout << RED << "\nExiting . . .\n" << RESET;
+                std::cout << RED << "\nExiting...\n" << RESET;
                 std::system("pause");
                 return 1;
             }
@@ -276,19 +276,19 @@ int main(int argc, char** argv)
         }
         else {
             path = getRegisteredPath(pkg);
-            std::cout << "DOOM Eternal is already 'moddable'. Updating EternalModInjector . . .\n";
+            std::cout << "DOOM Eternal is already 'moddable'. Updating EternalModInjector...\n";
         }
 
     }
     else
     {
         std::cout << RED << "Failed to get installation status for DOOM Eternal. Is it not installed?\n";
-        std::cout << "Exiting . . .\n" << RESET;
+        std::cout << "Exiting...\n" << RESET;
         std::system("pause");
         return 1;
     }
 
-    std::cout << "Extracting EternalModInjector . . .";
+    std::cout << "Extracting EternalModInjector...\n";
     extractInjector(path);
 
     std::cout << YELLOW << "\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"

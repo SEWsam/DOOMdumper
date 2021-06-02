@@ -84,7 +84,7 @@ bool validatePackage(const winrt::Package& pkg)
 	}
 
 	if (pkg_status.LicenseIssue()) {
-		std::cerr << RED << "ERROR: There is a license issue with DOOM Eternal . . .\n"
+		std::cerr << RED << "ERROR: There is a license issue with DOOM Eternal...\n"
 			<< "This could be caused by using the wrong account, expired gamepass, etc.\n" << RESET;
 		return false;
 	}

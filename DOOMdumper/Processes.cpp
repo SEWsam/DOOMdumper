@@ -104,7 +104,7 @@ int promptForProcess(const WCHAR* name)
 
         pid = getPidByName(name);
         if (pid == 0) {
-            std::cout << YELLOW << "Could not find DOOM Eternal running process. Trying again . . .\n\n" << RESET;
+            std::cout << YELLOW << "Could not find DOOM Eternal running process. Trying again...\n\n" << RESET;
         }
         else {
             std::cout << "Sucessfully found DOOM Eternal running process!\n";

@@ -78,7 +78,7 @@ bool dumpWithStatus(const int pid, const std::string path)
 			std::cerr << RED << "\nERROR: An exception, detailed above, occurred while dumping.\n" << RESET;
 			break;
 		}
-		std::cerr << RED << "Failed dumping . . .\n" << RESET;
+		std::cerr << RED << "Failed dumping...\n" << RESET;
 	}
 	catch (UWPDumper::InjectorError& e) {
 		std::cerr << RED << "\nFailed injection\n" << RESET;
