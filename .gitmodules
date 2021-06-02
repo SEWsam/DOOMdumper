@@ -1,0 +1,6 @@
+[submodule "zipper"]
+	path = zipper
+	url = https://github.com/sebastiandev/zipper
+[submodule "UWPDumper-lib"]
+	path = UWPDumper-lib
+	url = https://github.com/SEWsam/UWPDumper-lib
