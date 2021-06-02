@@ -25,21 +25,32 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 #include "DOOMdumper.hpp"
 
+// TODO: can error handling be better?
 void extractInjector(const std::string& path) // Note: there cannot be a blank 'Mods' folder in the zip.
 {
-    zipper::Unzipper unzipper("EternalModInjector-UWP.zip");
-    if (!unzipper.extract(path))
+    try
     {
-        std::cerr << RED << "Failed to extract EternalModInjector-UWP.zip.\n"
-                         << "Try extracting it manually to your game directory at '" << path << "'.\n"
-                         << "If it is not in the same folder as doomdumper.exe, try downloading it again.\n" << RESET;
+        zipper::Unzipper unzipper("EternalModInjector-UWP.zip");
+
+        if (!unzipper.extract(path))
+        {
+            std::cerr << RED << "Failed to extract EternalModInjector-UWP.zip.\n"
+                             << "Try extracting it manually to your game directory ('" << path << "').\n" << RESET;
+        }
+        else
+        {
+            std::cout << "Extracted EternalModInjector!\n";
+        }
+
+        unzipper.close();
+        fs::create_directory(path + "\\Mods");
     }
-    else
+    catch (const std::exception& e)
     {
-        std::cout << "Extracted EternalModInjector!\n";
+        std::cerr << RED << "Couldn't load EternalModInjector-UWP.zip.\n"
+                         << "If it's not in the same folder as doomdumper.exe, try downloading it again.\n" << RESET;
     }
-    unzipper.close();
-    fs::create_directory(path + "\\Mods");
+
 }
 
 bool getDefaultPath(fs::path& path)

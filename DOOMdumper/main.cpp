@@ -295,7 +295,7 @@ int main(int argc, char** argv)
                         << "This is not the case, and you should install the campaign by clicking the 'View in store' button in the game.\n\n"
                         << RESET;
 
-    std::cout << GREEN << "All tasks successfully completed!\n" << RESET;
+    std::cout << GREEN << "All tasks completed!\n" << RESET;
     std::system("pause");
     return 0;
 }
