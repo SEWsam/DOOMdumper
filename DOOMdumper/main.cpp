@@ -294,7 +294,7 @@ int main(int argc, char** argv)
     extractInjector(path);
 
     std::cout << YELLOW << "\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"
-                        << "This is not the case, and you should install the campaign by clicking the 'View in store' button in the game.\n\n"
+                        << "This is not the case, and you should install the campaign by clicking 'Campaign', then 'Go Now' in the game.\n\n"
                         << RESET;
 
     std::cout << GREEN << "All tasks completed!\n" << RESET;
