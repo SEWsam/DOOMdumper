@@ -32,7 +32,7 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 namespace fs = std::filesystem;
 
-const std::string UPDATED = "2021-06-19";
+const std::string UPDATED = "2021-06-22";
 const uint64_t MIN_FREE = 83751819391;  // Minimum space, in bytes, required to dump DOOM Eternal
 const winrt::PackageVersion GAME_VERSION{ 1, 0, 7, 0 };
 const std::string GAME_VERSION_STR
@@ -43,11 +43,14 @@ const std::string GAME_VERSION_STR
 const int GAME_VERSION_INT = std::stoi(boost::replace_all_copy(GAME_VERSION_STR, ".", ""));
 
 // ANSI color stuff
+bool nocolors = false;
 std::string RESET = "\033[0m";
 std::string BLUE_INFO = "\033[46m\033[38m";
 std::string RED = "\033[31m";
 std::string YELLOW = "\033[33m";
 std::string GREEN = "\033[32m";
+
+DebugStream dbgs;
 
 
 std::wstring stringToWstring(const std::string string)
@@ -131,45 +134,57 @@ std::string formattedSize(uint64_t bytesize)
 
 int main(int argc, char** argv)
 {
-    bool verbosemode = false;
-
     if (argc > 1) {
-        std::string argv_1(argv[1]);
-        if (argv_1 == "--help" || argc > 2) {
-            std::cout << "DOOMdumper by SEWsam, updated " << UPDATED << "\n";
-            std::cout << "Help | Command line options\n"
-                << "\n";
-            std::cout << "USAGE: " << argv[0] << " [OPTIONS]\n"
-                << "\n";
-            std::cout << "OPTIONS:\n";
-            std::cout << "    --help : Show this screen.\n";
-            std::cout << "    --verbose : Print extra info that may help with troubleshooting.\n";
-            return 1;
+        for (int i = 1; i < argc; i++ )
+        {
+            if (strcmp(argv[i], "--help") == 0 || argc > 3) {
+                std::cout << "DOOMdumper by SEWsam, updated " << UPDATED << "\n";
+                std::cout << "Help | Command line options\n"
+                    << "\n";
+                std::cout << "USAGE: " << argv[0] << " [OPTIONS]\n"
+                    << "\n";
+                std::cout << "OPTIONS:\n";
+                std::cout << "    --help : Show this screen.\n";
+                std::cout << "    --verbose : Print extra info that may help with troubleshooting.\n";
+                std::cout << "    --no-colors : Don't use colors in output (and disable progress bar).\n";
+                std::system("pause");
+                return 1;
+            }
+            else if (strcmp(argv[i], "--verbose") == 0) {
+                dbgs.enabled(true);
+            }
+            else if (strcmp(argv[i], "--no-colors") == 0) {
+                // also disables progress bar
+                nocolors = true;
+                RESET = "";
+                BLUE_INFO = "";
+                RED = "";
+                YELLOW = "";
+                GREEN = "";
+            }
+            else {
+                std::cout << "'" << argv[i] << "' is not a valid option. Use option '--help' for more details.\n";
+                std::system("pause");
+                return 1;
+            }
         }
+    }
 
-        if (argv_1 == "--verbose") {
-            verbosemode = true;
-        }
-        else {
-            std::cout << "'" << argv_1 << "' is not a valid option. Use option '--help' for more details.";
-            return 1;
-        }
-    } // TODO: colors?
+    if (!nocolors)
+    {
+        // Enable VT100 Emu
+        DWORD ConsoleMode;
+        GetConsoleMode(
+            GetStdHandle(STD_OUTPUT_HANDLE),
+            &ConsoleMode
+        );
+        SetConsoleMode(
+            GetStdHandle(STD_OUTPUT_HANDLE),
+            ConsoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING
+        );
+        SetConsoleOutputCP(437);
+    }
 
-    // Enable VT100 Emu
-    DWORD ConsoleMode;
-    GetConsoleMode(
-        GetStdHandle(STD_OUTPUT_HANDLE),
-        &ConsoleMode
-    );
-    SetConsoleMode(
-        GetStdHandle(STD_OUTPUT_HANDLE),
-        ConsoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING
-    );
-    SetConsoleOutputCP(437);
-
-
-    DebugStream dbgs(verbosemode);
 
 #pragma region Entry screen
     std::system("title DOOMdumper");

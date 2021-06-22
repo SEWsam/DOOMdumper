@@ -27,6 +27,8 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #include <winrt/Windows.ApplicationModel.h>
 #include <winrt/Windows.Management.Deployment.h>
 
+#include "DebugTools.hpp"
+
 namespace fs = std::filesystem;
 
 namespace winrt
@@ -43,11 +45,13 @@ extern const std::string GAME_VERSION_STR;
 extern const int GAME_VERSION_INT;
 
 // ANSI color stuff
+extern bool nocolors;
 extern std::string RESET;
 extern std::string BLUE_INFO;
 extern std::string RED;
 extern std::string YELLOW;
 extern std::string GREEN;
+extern DebugStream dbgs;
 
 
 /* main.cpp */

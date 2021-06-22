@@ -37,7 +37,6 @@ namespace winrt
 
 std::optional<winrt::Package> getPackage(const std::wstring pfn) 
 {
-	DebugStream dbgs(true);
 	winrt::hstring pkg_family{ pfn };
 
 	winrt::PackageManager pkgmgr;
