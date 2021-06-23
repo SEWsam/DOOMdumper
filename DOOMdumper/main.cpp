@@ -264,6 +264,13 @@ int main(int argc, char** argv)
                 std::system("pause");
                 return 0;
             }
+
+            // So doomdumper knows that this folder contains a sideloaded DOOMEternal, and that it is ok to replace later on.
+            fs::path install_marker_path(path);
+            install_marker_path /= "doom_dumper";
+            std::ofstream install_marker_ofs(install_marker_path);
+            install_marker_ofs.close();
+
             if (!dumpWithStatus(pid, path)) {
                 std::cout << RED << "\nExiting...\n" << RESET;
                 std::system("pause");
@@ -285,10 +292,6 @@ int main(int argc, char** argv)
                 return 1;
             }
 
-            fs::path install_marker_path(path);
-            install_marker_path /= "doom_dumper";
-            std::ofstream install_marker_ofs(install_marker_path);
-            install_marker_ofs.close();
 
         }
         else {
