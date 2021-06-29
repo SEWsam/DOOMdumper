@@ -32,9 +32,9 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 namespace fs = std::filesystem;
 
-const std::string UPDATED = "2021-06-22";
-const uint64_t MIN_FREE = 83751819391;  // Minimum space, in bytes, required to dump DOOM Eternal
-const winrt::PackageVersion GAME_VERSION{ 1, 0, 7, 0 };
+const std::string UPDATED = "2021-06-29";
+const uint64_t MIN_FREE = 85899345920;  // Minimum space, in bytes, required to dump DOOM Eternal
+const winrt::PackageVersion GAME_VERSION{ 1, 0, 8, 0 };
 const std::string GAME_VERSION_STR
     = std::to_string(GAME_VERSION.Major) + "."
     + std::to_string(GAME_VERSION.Minor) + "."
@@ -312,8 +312,12 @@ int main(int argc, char** argv)
     extractInjector(path);
 
     std::cout << YELLOW << "\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"
-                        << "This is not the case, and you should install the campaign by clicking 'Campaign', then 'Go Now' in the game.\n\n"
+                        << "If you DO own the campaign(s), you should enter the links below into a browser.\n\n"
                         << RESET;
+
+    std::cout << YELLOW << "Campaign: " << RESET << "ms-windows-store://pdp/?productId=9PC4V8W0VCWT\n"
+              << YELLOW << "TAG1:     " << RESET << "ms-windows-store://pdp/?productId=9P2MSCGJPKJC\n"
+              << YELLOW << "TAG2:     " << RESET << "ms-windows-store://pdp/?productId=9NB788JLSR97\n";
 
     std::cout << GREEN << "All tasks completed!\n" << RESET;
     std::system("pause");
@@ -321,4 +325,6 @@ int main(int argc, char** argv)
 }
 
 
-// TODO: Check if old game version was previously dumped (AppData config?)
+// TODO: Find a way to launch MS Store automatically in a less confusing way than before.
+// TODO: Possibly implement MSIXVC backups for those who are willing to sacrifice the space on slow internet.
+// TODO: Unlikely to be possible, but hopefully find a way to "patch" the game installation to use the MutablePackageDirectory property.
