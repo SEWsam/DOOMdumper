@@ -108,11 +108,11 @@ bool preparePath(fs::path& path, uint64_t& free)
             && confirmPrompt("Old DOOM Eternal Installation found in specified path. Replace it?")) 
         {
             fs::remove_all(path);
-            return true;
         }
-
-        std::cout << YELLOW << "Specified path is not empty.\n" << RESET;
-        return false;
+        else {
+            std::cout << YELLOW << "Specified path is not empty.\n" << RESET;
+            return false;
+        }
     }
 
     auto space = fs::space(path.root_path());
