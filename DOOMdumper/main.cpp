@@ -181,6 +181,7 @@ int main(int argc, char** argv)
                       strcmp(argv[i], "--licenses") == 0 )
             {
                 printLicenseHelp();
+                std::system("pause");
                 return 0;
             }
             else {
