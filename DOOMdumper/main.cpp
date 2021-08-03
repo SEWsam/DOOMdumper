@@ -146,6 +146,8 @@ void printLicenseHelp()
 
 int main(int argc, char** argv)
 {
+    bool print_links_then_exit = false;
+
     if (argc > 1) {
         for (int i = 1; i < argc; i++ )
         {
@@ -180,9 +182,7 @@ int main(int argc, char** argv)
             else if ( strcmp(argv[i], "-l") == 0 ||
                       strcmp(argv[i], "--licenses") == 0 )
             {
-                printLicenseHelp();
-                std::system("pause");
-                return 0;
+                print_links_then_exit = true;
             }
             else {
                 std::cout << "'" << argv[i] << "' is not a valid option. Use option '--help' for more details.\n";
@@ -205,6 +205,13 @@ int main(int argc, char** argv)
             ConsoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING
         );
         SetConsoleOutputCP(437);
+    }
+
+    if (print_links_then_exit)
+    {
+        printLicenseHelp();
+        std::system("pause");
+        return 0;
     }
 
     std::system("title DOOMdumper");
