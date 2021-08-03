@@ -18,13 +18,13 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 */
 #include <iostream>
 #include <string>
-#include <boost/algorithm/string.hpp>
 #include <filesystem>
 #include <fstream>
 #include <optional>
-#include <boost/locale.hpp>
 #include <windows.h>
 #include <winreg.h>
+#include <boost/locale.hpp>
+#include <boost/algorithm/string.hpp>
 
 #include "DOOMdumper.hpp"
 #include "DebugTools.hpp"
@@ -32,9 +32,9 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 namespace fs = std::filesystem;
 
-const std::string UPDATED = "2021-07-15";
-const uint64_t MIN_FREE = 85899345920;  // Minimum space, in bytes, required to dump DOOM Eternal
-const winrt::PackageVersion GAME_VERSION{ 1, 0, 9, 0 };
+const std::string UPDATED = "2021-08-03";
+const uint64_t MIN_FREE = 91268055040;  // Minimum space, in bytes, required to dump DOOM Eternal
+const winrt::PackageVersion GAME_VERSION{ 1, 0, 10, 0 };
 const std::string GAME_VERSION_STR
     = std::to_string(GAME_VERSION.Major) + "."
     + std::to_string(GAME_VERSION.Minor) + "."
@@ -147,6 +147,7 @@ int main(int argc, char** argv)
                 std::cout << "    --help : Show this screen.\n";
                 std::cout << "    --verbose : Print extra info that may help with troubleshooting.\n";
                 std::cout << "    --no-colors : Don't use colors in output (and disable progress bar).\n";
+
                 std::system("pause");
                 return 1;
             }
@@ -185,8 +186,6 @@ int main(int argc, char** argv)
         SetConsoleOutputCP(437);
     }
 
-
-#pragma region Entry screen
     std::system("title DOOMdumper");
     std::cout << BLUE_INFO << "                                                  " << RESET << "\n";
     std::cout << BLUE_INFO << "  DOOMdumper                                      " << RESET << "\n";
@@ -219,7 +218,6 @@ int main(int argc, char** argv)
 
     std::system("pause");
     std::cout << std::endl;
-#pragma endregion
 
     int devmode_result = enableDevMode();
     if (devmode_result == ERROR_ACCESS_DENIED)
