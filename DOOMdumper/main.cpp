@@ -133,6 +133,17 @@ std::string formattedSize(uint64_t bytesize)
     return formatted;
 }
 
+void printLicenseHelp()
+{
+    std::cout << YELLOW << "\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"
+        << "If you DO own the campaign(s), you should enter the links below into a browser.\n\n"
+        << RESET;
+
+    std::cout << YELLOW << "Campaign: " << RESET << "ms-windows-store://pdp/?productId=9PC4V8W0VCWT\n"
+        << YELLOW << "TAG1:     " << RESET << "ms-windows-store://pdp/?productId=9P2MSCGJPKJC\n"
+        << YELLOW << "TAG2:     " << RESET << "ms-windows-store://pdp/?productId=9NB788JLSR97\n";
+}
+
 int main(int argc, char** argv)
 {
     if (argc > 1) {
@@ -145,9 +156,10 @@ int main(int argc, char** argv)
                 std::cout << "USAGE: " << argv[0] << " [OPTIONS]\n"
                     << "\n";
                 std::cout << "OPTIONS:\n";
-                std::cout << "    --help : Show this screen.\n";
-                std::cout << "    --verbose : Print extra info that may help with troubleshooting.\n";
-                std::cout << "    --no-colors : Don't use colors in output (and disable progress bar).\n";
+                std::cout << "      --help : Show this screen.\n";
+                std::cout << "      --verbose : Print extra info that may help with troubleshooting.\n";
+                std::cout << "      --no-colors : Don't use colors in output (and disable progress bar).\n";
+                std::cout << "  -l, --licenses : Print game license download help.\n";
 
                 std::system("pause");
                 return 1;
@@ -164,6 +176,12 @@ int main(int argc, char** argv)
                 RED = "";
                 YELLOW = "";
                 GREEN = "";
+            }
+            else if ( strcmp(argv[i], "-l") == 0 ||
+                      strcmp(argv[i], "--licenses") == 0 )
+            {
+                printLicenseHelp();
+                return 0;
             }
             else {
                 std::cout << "'" << argv[i] << "' is not a valid option. Use option '--help' for more details.\n";
@@ -310,15 +328,11 @@ int main(int argc, char** argv)
 
     std::cout << "Extracting EternalModInjector...\n";
     extractInjector(path);
+
+    std::cout << "\n";
     std::cout << BLUE << "Your game is installed to " << GREEN << path << "\n" << RESET;
 
-    std::cout << YELLOW << "\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"
-                        << "If you DO own the campaign(s), you should enter the links below into a browser.\n\n"
-                        << RESET;
-
-    std::cout << YELLOW << "Campaign: " << RESET << "ms-windows-store://pdp/?productId=9PC4V8W0VCWT\n"
-              << YELLOW << "TAG1:     " << RESET << "ms-windows-store://pdp/?productId=9P2MSCGJPKJC\n"
-              << YELLOW << "TAG2:     " << RESET << "ms-windows-store://pdp/?productId=9NB788JLSR97\n";
+    printLicenseHelp();
 
     std::cout << GREEN << "All tasks completed!\n" << RESET;
     std::system("pause");
