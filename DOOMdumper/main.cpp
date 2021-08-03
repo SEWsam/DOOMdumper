@@ -46,6 +46,7 @@ const int GAME_VERSION_INT = std::stoi(boost::replace_all_copy(GAME_VERSION_STR,
 bool nocolors = false;
 std::string RESET = "\033[0m";
 std::string BLUE_INFO = "\033[46m\033[38m";
+std::string BLUE = "\033[36m";
 std::string RED = "\033[31m";
 std::string YELLOW = "\033[33m";
 std::string GREEN = "\033[32m";
@@ -159,6 +160,7 @@ int main(int argc, char** argv)
                 nocolors = true;
                 RESET = "";
                 BLUE_INFO = "";
+                BLUE = "";
                 RED = "";
                 YELLOW = "";
                 GREEN = "";
@@ -308,6 +310,7 @@ int main(int argc, char** argv)
 
     std::cout << "Extracting EternalModInjector...\n";
     extractInjector(path);
+    std::cout << BLUE << "Your game is installed to " << GREEN << path << "\n" << RESET;
 
     std::cout << YELLOW << "\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"
                         << "If you DO own the campaign(s), you should enter the links below into a browser.\n\n"

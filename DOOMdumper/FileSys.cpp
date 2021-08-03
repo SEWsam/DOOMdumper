@@ -25,7 +25,7 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 #include "DOOMdumper.hpp"
 
-// TODO: can error handling be better?
+
 void extractInjector(const std::string& path) // Note: there cannot be a blank 'Mods' folder in the zip.
 {
     try
