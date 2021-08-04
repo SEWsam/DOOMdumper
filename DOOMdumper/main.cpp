@@ -151,7 +151,7 @@ int main(int argc, char** argv)
     if (argc > 1) {
         for (int i = 1; i < argc; i++ )
         {
-            if (strcmp(argv[i], "--help") == 0 || argc > 3) {
+            if (strcmp(argv[i], "--help") == 0 || argc > 4) {
                 std::cout << "DOOMdumper by SEWsam, updated " << UPDATED << "\n";
                 std::cout << "Help | Command line options\n"
                     << "\n";
