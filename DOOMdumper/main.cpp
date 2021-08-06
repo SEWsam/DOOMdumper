@@ -70,7 +70,7 @@ int regSet(HKEY hive, const char* key, const char* value_name, T value, size_t v
     auto l_key = RegOpenKeyExA(hive, key, 0, KEY_SET_VALUE, &hkey);
     if (l_key != EXIT_SUCCESS)
     {
-        std::cerr << RED << "Failed to open registry to enable Developer Mode.\n" << RESET;
+        std::cerr << RED << "Failed to open registry.\n" << RESET;
         return l_key;
     }
  
@@ -84,7 +84,7 @@ int regSet(HKEY hive, const char* key, const char* value_name, T value, size_t v
     auto l_closure_result = RegCloseKey(hkey);
     if (l_closure_result != EXIT_SUCCESS)
     {
-        std::cerr << RED << "Failed to close registry after enabling Developer Mode.\n" << RESET;
+        std::cerr << RED << "Failed to close registry.\n" << RESET;
     }
 
     return l_closure_result;
