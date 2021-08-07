@@ -22,12 +22,12 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 #include "DOOMdumper.hpp"
 
-bool dumpWithStatus(const int pid, const std::string path)
+bool dumpWithStatus(const int pid, const std::string path, const bool verboseish)
 {
 	bool ExitStatus = false;
 	int proc_id = pid;
 
-	UWPDumper::UWPInjector injector(proc_id, path);
+	UWPDumper::UWPInjector injector(proc_id, path, verboseish);
 
 	try {
 		injector.DumperInject();

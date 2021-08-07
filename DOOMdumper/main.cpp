@@ -51,6 +51,7 @@ std::string RED = "\033[31m";
 std::string YELLOW = "\033[33m";
 std::string GREEN = "\033[32m";
 
+bool misc_debug = false;
 DebugStream dbgs;
 
 
@@ -167,6 +168,7 @@ int main(int argc, char** argv)
                 return 1;
             }
             else if (strcmp(argv[i], "--verbose") == 0) {
+                misc_debug = true;
                 dbgs.enabled(true);
             }
             else if (strcmp(argv[i], "--no-colors") == 0) {
@@ -297,7 +299,7 @@ int main(int argc, char** argv)
             std::ofstream install_marker_ofs(install_marker_path);
             install_marker_ofs.close();
 
-            if (!dumpWithStatus(pid, path)) {
+            if (!dumpWithStatus(pid, path, misc_debug)) {
                 std::cout << RED << "\nExiting...\n" << RESET;
                 std::system("pause");
                 return 1;

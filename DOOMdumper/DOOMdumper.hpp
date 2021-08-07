@@ -51,6 +51,8 @@ extern std::string BLUE_INFO;
 extern std::string RED;
 extern std::string YELLOW;
 extern std::string GREEN;
+
+extern bool misc_debug; 
 extern DebugStream dbgs;
 
 
@@ -78,7 +80,7 @@ int getPidByName(const WCHAR* name);
 int promptForProcess(const WCHAR* name = L"DOOMEternalx64vk.exe");
 
 /* UWPDUmperInterface.cpp */
-bool dumpWithStatus(const int pid, const std::string path);
+bool dumpWithStatus(const int pid, const std::string path, const bool verboseish);
 
 
 /* Extra tools */
