@@ -63,29 +63,29 @@ std::wstring stringToWstring(const std::string string)
     return wstrTo;
 }
 
-int enableDevMode()
+template <typename T, DWORD regT>
+int regSet(HKEY hive, const char* key, const char* value_name, T value, size_t value_size)
 {
     HKEY hkey;
-    DWORD value = 1;
 
-    auto l_key = RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AppModelUnlock", 0, KEY_SET_VALUE, &hkey);
+    auto l_key = RegOpenKeyExA(hive, key, 0, KEY_SET_VALUE, &hkey);
     if (l_key != EXIT_SUCCESS)
     {
-        std::cerr << RED << "Failed to open registry to enable Developer Mode.\n" << RESET;
+        std::cerr << RED << "Failed to open registry.\n" << RESET;
         return l_key;
     }
-
-    auto l_set_result = RegSetValueExA(hkey, "AllowDevelopmentWithoutDevLicense", 0, REG_DWORD, LPBYTE(&value), sizeof(DWORD));
+ 
+    auto l_set_result = RegSetValueExA(hkey, value_name, 0, regT, (LPBYTE)value, value_size);
     if (l_set_result != EXIT_SUCCESS)
     {
-        std::cerr << RED << "Failed to write to registry to enable Developer Mode.\n" << RESET;
+        std::cerr << RED << "Failed to write to registry.\n" << RESET;
         return l_set_result;
     }
 
     auto l_closure_result = RegCloseKey(hkey);
     if (l_closure_result != EXIT_SUCCESS)
     {
-        std::cerr << RED << "Failed to close registry after enabling Developer Mode.\n" << RESET;
+        std::cerr << RED << "Failed to close registry.\n" << RESET;
     }
 
     return l_closure_result;
@@ -134,7 +134,7 @@ std::string formattedSize(uint64_t bytesize)
     return formatted;
 }
 
-void printLicenseHelp()
+inline void printLicenseHelp()
 {
     std::cout << YELLOW << "\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"
         << "If you DO own the campaign(s), you should enter the links below into a browser.\n\n"
@@ -143,6 +143,26 @@ void printLicenseHelp()
     std::cout << YELLOW << "Campaign: " << RESET << "ms-windows-store://pdp/?productId=9PC4V8W0VCWT\n"
         << YELLOW << "TAG1:     " << RESET << "ms-windows-store://pdp/?productId=9P2MSCGJPKJC\n"
         << YELLOW << "TAG2:     " << RESET << "ms-windows-store://pdp/?productId=9NB788JLSR97\n";
+}
+
+inline int enableDevMode()
+{
+    dbgs.dbgCout() << "Enabling devmode...\n";
+    int value = 1;
+    int result = regSet<int*, REG_DWORD>(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AppModelUnlock",
+        "AllowDevelopmentWithoutDevLicense", &value, sizeof(DWORD));
+    dbgs.dbgCout() << "Enabling devmode should have finished.\n";
+    return result;
+}
+
+inline int storeDumpPath(std::string path)
+{
+    dbgs.dbgCout() << "Storing dump path...\n";
+    const char* c_path = path.c_str();
+    const size_t pathlen = strlen(c_path) * sizeof(char);
+    int result = regSet<const char*, REG_SZ>(HKEY_CURRENT_USER, "SOFTWARE\\DOOMdumper", "DumpPath", c_path, pathlen);
+    dbgs.dbgCout() << "Storing dump path should have finished\n";
+    return result;
 }
 
 int main(int argc, char** argv)
@@ -293,6 +313,10 @@ int main(int argc, char** argv)
                 return 0;
             }
 
+            // this helps chrispy and probably me in the future
+            storeDumpPath(path);
+           
+
             // So doomdumper knows that this folder contains a sideloaded DOOMEternal, and that it is ok to replace later on.
             fs::path install_marker_path(path);
             install_marker_path /= "doom_dumper";
@@ -335,7 +359,7 @@ int main(int argc, char** argv)
         std::system("pause");
         return 1;
     }
-
+    storeDumpPath(path);
     std::cout << "Extracting EternalModInjector...\n";
     extractInjector(path);
 
