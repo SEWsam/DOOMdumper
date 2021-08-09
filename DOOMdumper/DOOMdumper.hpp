@@ -49,6 +49,3 @@ extern DebugStream dbgs;
 /* UWPDUmperInterface.cpp */
 bool dumpWithStatus(const int pid, const std::string path, const bool verboseish);
 
-
-/* Extra tools */
-

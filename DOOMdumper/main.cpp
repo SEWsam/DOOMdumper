@@ -275,4 +275,3 @@ int main(int argc, char** argv)
 
 // TODO: Find a way to launch MS Store automatically in a less confusing way than before.
 // TODO: Possibly implement MSIXVC backups for those who are willing to sacrifice the space on slow internet.
-// TODO: Unlikely to be possible, but hopefully find a way to "patch" the game installation to use the MutablePackageDirectory property.

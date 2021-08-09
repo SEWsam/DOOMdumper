@@ -68,14 +68,14 @@ std::string formattedSize(uint64_t bytesize);
 */
 // Registry set template
 template <typename T, DWORD regT>
-int regSet(HKEY hive, const char* key, const char* value_name, T value, size_t value_size, bool debug = true)
+int regSet(HKEY hive, const char* key, const char* value_name, T value, size_t value_size)
 {
     HKEY hkey;
 
     auto l_key = RegOpenKeyExA(hive, key, 0, KEY_SET_VALUE, &hkey);
     if (l_key == ERROR_FILE_NOT_FOUND)
     {
-        if (debug) std::cout << "Key '" << key << "' does not exist. Creating it.\n";
+        dbgs.dbgCout() << "Key '" << key << "' does not exist. Creating it.\n";
         l_key = RegCreateKeyExA(hive, key, 0, nullptr, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, nullptr, &hkey, nullptr);
     }
 
