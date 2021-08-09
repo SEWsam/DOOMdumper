@@ -55,7 +55,7 @@ bool validatePackage(const winrt::Package& pkg)
 	auto pkg_status = pkg.Status();
 	auto pkg_id = pkg.Id();
 
-	if (pkg_id.Version() != GAME_VERSION)
+	if (pkg_id.Version() != game_version.pkg_version)
 	{
 		std::string nospace_version_str
 			= std::to_string(pkg_id.Version().Major)
@@ -65,10 +65,10 @@ bool validatePackage(const winrt::Package& pkg)
 		int version_int = std::stoi(nospace_version_str);
 
 		std::cerr << RED << "ERROR: The installed version of DOOM Eternal is NOT compatible with this version of DOOMdumper.\n"
-			             << "This release of DOOMdumper is for DOOM Eternal Version " << GAME_VERSION_STR << "\n" 
+						 << "This release of DOOMdumper is for DOOM Eternal Version " << game_version.String() << "\n"
 					     << "Make sure you have the latest version of DOOMdumper.\n" << RESET;
 
-		if (version_int < GAME_VERSION_INT)
+		if (version_int < game_version.Int())
 		{
 			std::cout << YELLOW << "Your game appears to be out of date. Update it by reinstalling it.\n" << RESET;
 		}

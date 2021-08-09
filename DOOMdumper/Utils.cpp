@@ -20,11 +20,63 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #include <boost/locale.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include <Windows.h>
-#include <winreg.h>
-
 #include "Utils.hpp"
 #include "DOOMdumper.hpp"
+
+/* class ProgressBar */
+void ProgressBar::Display(int p)
+{
+	has_displayed = true;
+	std::cout << "\033[36m";
+
+	std::cout << "Progress: [";
+	for (int i = 2; i < 100; i += 2) {
+		if (i <= p) {
+			std::cout << "=";
+		}
+		else {
+			std::cout << " ";
+		}
+
+	}
+	std::cout << "] " << std::to_string(p) << " %\n\033[0m";
+
+
+}
+
+void ProgressBar::Clear()
+{
+	if (has_displayed) std::cout << "\033[1A\033[2K";
+}
+
+/* class GameVersion*/
+GameVersion::GameVersion(uint16_t major, uint16_t minor, uint16_t build, uint16_t revision)
+{
+	Major = major;
+	Minor = minor;
+	Build = build;
+	Revision = revision;
+
+	winrt::PackageVersion tmp_pkg_version{ Major, Minor, Build, Revision };
+	pkg_version = tmp_pkg_version;
+}
+
+const std::string GameVersion::String()
+{
+	std::string ret;
+	ret += std::to_string(Major) + '.';
+	ret += std::to_string(Minor) + '.';
+	ret += std::to_string(Build) + '.';
+	ret += std::to_string(Revision) + '.';
+    return ret;
+}
+
+const int GameVersion::Int()
+{
+	return std::stoi(boost::replace_all_copy(VersionStr(), ".", ""));
+}
+
+
 
 std::wstring stringToWstring(const std::string string)
 {

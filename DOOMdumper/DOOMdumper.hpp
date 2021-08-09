@@ -24,6 +24,7 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #include <winrt/Windows.ApplicationModel.h>
 
 #include "DebugTools.hpp"
+#include "Utils.hpp"
 
 // ANSI color stuff
 #define RESET "\033[0m"
@@ -36,14 +37,11 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 namespace fs = std::filesystem;
 namespace winrt { using namespace Windows::ApplicationModel; }
 
-
 // Global Version constants
 inline constexpr char Updated[] = "2021-08-08";
 inline constexpr uint64_t Min_Free = 91268055040; // Minimum space, in bytes, required to dump DOOM Eternal
 
-extern const winrt::PackageVersion GAME_VERSION;
-extern const std::string GAME_VERSION_STR;
-extern const int GAME_VERSION_INT;
+extern const GameVersion game_version;
 
 extern bool misc_debug; 
 extern DebugStream dbgs;
@@ -53,35 +51,4 @@ bool dumpWithStatus(const int pid, const std::string path, const bool verboseish
 
 
 /* Extra tools */
-
-class ProgressBar
-{
-private:
-	bool has_displayed = false;
-public:
-	void Display(int p)
-	{
-		has_displayed = true;
-		std::cout << "\033[36m";
-
-		std::cout << "Progress: [";
-		for (int i = 2; i < 100; i += 2) {
-			if (i <= p) {
-				std::cout << "=";
-			}
-			else {
-				std::cout << " ";
-			}
-
-		}
-		std::cout << "] " << std::to_string(p) << " %\n\033[0m";
-
-
-	}
-
-	void Clear()
-	{
-		if (has_displayed) std::cout << "\033[1A\033[2K";
-	}
-};
 

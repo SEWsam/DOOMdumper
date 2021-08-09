@@ -18,12 +18,42 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 */
 #pragma once
 
-#include "DOOMdumper.hpp"
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
+#include <winreg.h>
 
+
+class ProgressBar
+{
+private:
+	bool has_displayed = false;
+public:
+    void Display(int p);
+	void Clear();
+};
+
+class GameVersion
+{
+private:
+	uint16_t Major;
+	uint16_t Minor;
+	uint16_t Build;
+	uint16_t Revision;
+public:
+	winrt::PackageVersion pkg_version;
+    // todo: allow creation of class from a winrt::PackageVersion
+    GameVersion(uint16_t major, uint16_t minor, uint16_t build, uint16_t revision);
+
+    const std::string String();
+    const int Int();
+
+    //todo: add operators
+};
 
 std::wstring stringToWstring(const std::string string);
 bool confirmPrompt(const std::string msg);
 std::string formattedSize(uint64_t bytesize);
+
 
 /*
     ehh i could probably avoid having two functions for reading AND writing but whatever
@@ -67,13 +97,12 @@ int regSet(HKEY hive, const char* key, const char* value_name, T value, size_t v
 // inline helper functions
 inline void printLicenseHelp()
 {
-    std::cout << YELLOW << "\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"
-        << "If you DO own the campaign(s), you should enter the links below into a browser.\n\n"
-        << RESET;
+    std::cout << "\033[33m\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"
+              << "If you DO own the campaign(s), you should enter the links below into a browser.\n\n\033[0m";
 
-    std::cout << YELLOW << "Campaign: " << RESET << "ms-windows-store://pdp/?productId=9PC4V8W0VCWT\n"
-        << YELLOW << "TAG1:     " << RESET << "ms-windows-store://pdp/?productId=9P2MSCGJPKJC\n"
-        << YELLOW << "TAG2:     " << RESET << "ms-windows-store://pdp/?productId=9NB788JLSR97\n";
+    std::cout << "\033[33mCampaign: \033[0mms-windows-store://pdp/?productId=9PC4V8W0VCWT\n"
+              << "\033[33mTAG1:     \033[0mms-windows-store://pdp/?productId=9P2MSCGJPKJC\n"
+              << "\033[33mTAG2:     \033[0mms-windows-store://pdp/?productId=9NB788JLSR97\n";
 }
 
 inline int enableDevMode()

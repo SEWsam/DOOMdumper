@@ -24,7 +24,6 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #include <windows.h>
 #include <winreg.h>
 #include <boost/locale.hpp>
-#include <boost/algorithm/string.hpp>
 
 #include "DOOMdumper.hpp"
 #include "DebugTools.hpp"
@@ -36,13 +35,7 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 namespace fs = std::filesystem;
 
-const winrt::PackageVersion GAME_VERSION{ 1, 0, 10, 0 };
-const std::string GAME_VERSION_STR
-    = std::to_string(GAME_VERSION.Major) + "."
-    + std::to_string(GAME_VERSION.Minor) + "."
-    + std::to_string(GAME_VERSION.Build) + "."
-    + std::to_string(GAME_VERSION.Revision);
-const int GAME_VERSION_INT = std::stoi(boost::replace_all_copy(GAME_VERSION_STR, ".", ""));
+const GameVersion game_version(1, 0, 10, 0);
 
 bool misc_debug = false;
 DebugStream dbgs;
