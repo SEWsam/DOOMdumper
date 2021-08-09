@@ -61,7 +61,7 @@ GameVersion::GameVersion(uint16_t major, uint16_t minor, uint16_t build, uint16_
 	pkg_version = tmp_pkg_version;
 }
 
-const std::string GameVersion::String()
+std::string GameVersion::String() const
 {
 	std::string ret;
 	ret += std::to_string(Major) + '.';
@@ -71,9 +71,9 @@ const std::string GameVersion::String()
     return ret;
 }
 
-const int GameVersion::Int()
+int GameVersion::Int() const
 {
-	return std::stoi(boost::replace_all_copy(VersionStr(), ".", ""));
+	return std::stoi(boost::replace_all_copy(String(), ".", ""));
 }
 
 

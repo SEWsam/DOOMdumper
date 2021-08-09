@@ -21,6 +21,14 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <winreg.h>
+#include <winrt/Windows.ApplicationModel.h>
+
+#include "DebugTools.hpp"
+
+namespace winrt { using namespace Windows::ApplicationModel; }
+
+// todo: something better than this?
+extern DebugStream dbgs;
 
 
 class ProgressBar
@@ -44,8 +52,8 @@ public:
     // todo: allow creation of class from a winrt::PackageVersion
     GameVersion(uint16_t major, uint16_t minor, uint16_t build, uint16_t revision);
 
-    const std::string String();
-    const int Int();
+    std::string String() const;
+    int Int() const;
 
     //todo: add operators
 };
@@ -60,34 +68,34 @@ std::string formattedSize(uint64_t bytesize);
 */
 // Registry set template
 template <typename T, DWORD regT>
-int regSet(HKEY hive, const char* key, const char* value_name, T value, size_t value_size)
+int regSet(HKEY hive, const char* key, const char* value_name, T value, size_t value_size, bool debug = true)
 {
     HKEY hkey;
 
     auto l_key = RegOpenKeyExA(hive, key, 0, KEY_SET_VALUE, &hkey);
     if (l_key == ERROR_FILE_NOT_FOUND)
     {
-        dbgs.dbgCout() << "Key '" << key << "' does not exist. Creating it.\n";
+        if (debug) std::cout << "Key '" << key << "' does not exist. Creating it.\n";
         l_key = RegCreateKeyExA(hive, key, 0, nullptr, REG_OPTION_NON_VOLATILE, KEY_SET_VALUE, nullptr, &hkey, nullptr);
     }
 
     if (l_key != EXIT_SUCCESS)
     {
-        std::cerr << RED << "Failed to open registry.\n" << RESET;
+        std::cerr << "\033[31mFailed to open registry.\n\033[0m";
         return l_key;
     }
 
     auto l_set_result = RegSetValueExA(hkey, value_name, 0, regT, (LPBYTE)value, value_size);
     if (l_set_result != EXIT_SUCCESS)
     {
-        std::cerr << RED << "Failed to write to registry.\n" << RESET;
+        std::cerr << "\033[31mFailed to write to registry.\n\033[0m";
         return l_set_result;
     }
 
     auto l_closure_result = RegCloseKey(hkey);
     if (l_closure_result != EXIT_SUCCESS)
     {
-        std::cerr << RED << "Failed to close registry.\n" << RESET;
+        std::cerr << "\033[31mFailed to close registry.\n\033[0m";
     }
 
     return l_closure_result;
