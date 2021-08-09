@@ -49,8 +49,9 @@ private:
 	uint16_t Revision;
 public:
 	winrt::PackageVersion pkg_version;
-    // todo: allow creation of class from a winrt::PackageVersion
+
     GameVersion(uint16_t major, uint16_t minor, uint16_t build, uint16_t revision);
+    GameVersion(winrt::PackageVersion pv);
 
     std::string String() const;
     int Int() const;

@@ -16,8 +16,10 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 */
-#include <Windows.h>
 #include <iostream>
+
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 #include <Psapi.h>
 #include <tchar.h>
 

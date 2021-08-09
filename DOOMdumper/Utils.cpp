@@ -60,10 +60,19 @@ GameVersion::GameVersion(uint16_t major, uint16_t minor, uint16_t build, uint16_
 	winrt::PackageVersion tmp_pkg_version{ Major, Minor, Build, Revision };
 	pkg_version = tmp_pkg_version;
 }
+GameVersion::GameVersion(winrt::PackageVersion pv)
+{
+    Major = pv.Major;
+    Minor = pv.Minor;
+    Build = pv.Build;
+    Revision = pv.Revision;
+
+    pkg_version = pv;
+}
 
 std::string GameVersion::String() const
 {
-	std::string ret;
+    std::string ret;
 	ret += std::to_string(Major) + '.';
 	ret += std::to_string(Minor) + '.';
 	ret += std::to_string(Build) + '.';
