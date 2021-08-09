@@ -68,7 +68,7 @@ bool getDefaultPath(fs::path& path)
         fs::path drive_path(drives);
         auto space = fs::space(drive_path);
 
-        if (space.available > MIN_FREE) {
+        if (space.available > Min_Free) {
             final_path = drive_path.string();
             break;
         }
@@ -78,7 +78,7 @@ bool getDefaultPath(fs::path& path)
     delete[] buf;
 
     if (final_path.empty()) {
-        std::cout << RED << "None of your drives have enough space to continue. You need: " << formattedSize(MIN_FREE) << "\n" << RESET;
+        std::cout << RED << "None of your drives have enough space to continue. You need: " << formattedSize(Min_Free) << "\n" << RESET;
         return false;
     }
 
@@ -119,9 +119,9 @@ bool preparePath(fs::path& path, uint64_t& free)
     auto space = fs::space(path.root_path());
     free = space.available;
 
-    if (free < MIN_FREE) {
+    if (free < Min_Free) {
         std::cout << YELLOW << "Not enough space in " << path
-            << " (" << formattedSize(free) << " free, " << formattedSize(MIN_FREE) << " required)\n" << RESET;
+            << " (" << formattedSize(free) << " free, " << formattedSize(Min_Free) << " required)\n" << RESET;
         return false;
     }
 

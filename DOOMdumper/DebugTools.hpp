@@ -19,8 +19,6 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #pragma once
 #include <iostream>
 
-extern std::string YELLOW;
-extern std::string RESET;
 
 class NullBuffer : public std::streambuf
 {
@@ -69,17 +67,11 @@ public:
     DebugStream(bool verbosity) : verbose(verbosity) {}
     void enabled(bool verbosity) { verbose = verbosity; }
 
-    std::ostream& dbgCout(bool noprefix = false, bool nocolor = false)
+    std::ostream& dbgCout(bool noprefix = false)
     {
         if (verbose) {
             if (!noprefix) {
-                if (nocolor) {
-                    std::cout << "Verbose: ";
-                }
-                else
-                {
-                    std::cout << YELLOW << "Verbose: " << RESET;
-                }
+                std::cout << "\033[33mVerbose: \033[0m";
             }
 
             return std::cout;

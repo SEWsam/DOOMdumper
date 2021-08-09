@@ -21,28 +21,29 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #include <iostream>
 #include <optional>
 #include <filesystem>
-#include <Windows.h>
 #include <winrt/Windows.ApplicationModel.h>
 
 #include "DebugTools.hpp"
 
+// ANSI color stuff
+#define RESET "\033[0m"
+#define BLUE_INFO "\033[46m\033[38m"
+#define BLUE "\033[36m"
+#define RED "\033[31m"
+#define YELLOW "\033[33m"
+#define GREEN "\033[32m"
+
 namespace fs = std::filesystem;
 namespace winrt { using namespace Windows::ApplicationModel; }
 
+
 // Global Version constants
-extern const std::string UPDATED;
-extern const uint64_t MIN_FREE;
+inline constexpr char Updated[] = "2021-08-08";
+inline constexpr uint64_t Min_Free = 91268055040; // Minimum space, in bytes, required to dump DOOM Eternal
+
 extern const winrt::PackageVersion GAME_VERSION;
 extern const std::string GAME_VERSION_STR;
 extern const int GAME_VERSION_INT;
-
-// ANSI color stuff
-extern bool nocolors;
-extern std::string RESET;
-extern std::string BLUE_INFO;
-extern std::string RED;
-extern std::string YELLOW;
-extern std::string GREEN;
 
 extern bool misc_debug; 
 extern DebugStream dbgs;

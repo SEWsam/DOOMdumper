@@ -42,15 +42,9 @@ bool dumpWithStatus(const int pid, const std::string path, const bool verboseish
 		{
 			while (injector.PopMessage(msg, err, progress))
 			{
-				if (!nocolors) {
-					pb.Clear();
-				}
-
+				pb.Clear();
 				std::wcout << msg;
-
-				if (progress != 0 && !nocolors) {
-					pb.Display(progress);
-				}
+				pb.Display(progress);
 
 				if (err != UWPDumper::DumperError::none) {
 					throw err;

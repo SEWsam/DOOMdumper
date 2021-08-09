@@ -36,8 +36,6 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 namespace fs = std::filesystem;
 
-const std::string UPDATED = "2021-08-07";
-const uint64_t MIN_FREE = 91268055040;  // Minimum space, in bytes, required to dump DOOM Eternal
 const winrt::PackageVersion GAME_VERSION{ 1, 0, 10, 0 };
 const std::string GAME_VERSION_STR
     = std::to_string(GAME_VERSION.Major) + "."
@@ -45,15 +43,6 @@ const std::string GAME_VERSION_STR
     + std::to_string(GAME_VERSION.Build) + "."
     + std::to_string(GAME_VERSION.Revision);
 const int GAME_VERSION_INT = std::stoi(boost::replace_all_copy(GAME_VERSION_STR, ".", ""));
-
-// ANSI color stuff
-bool nocolors = false; // todo: why do i need this?? also these can be macros considering i already manually enbale vt100 emulation
-std::string RESET = "\033[0m";
-std::string BLUE_INFO = "\033[46m\033[38m";
-std::string BLUE = "\033[36m";
-std::string RED = "\033[31m";
-std::string YELLOW = "\033[33m";
-std::string GREEN = "\033[32m";
 
 bool misc_debug = false;
 DebugStream dbgs;
@@ -68,7 +57,7 @@ int main(int argc, char** argv)
         for (int i = 1; i < argc; i++ )
         {
             if (strcmp(argv[i], "--help") == 0 || argc > 4) {
-                std::cout << "DOOMdumper by SEWsam, updated " << UPDATED << "\n";
+                std::cout << "DOOMdumper by SEWsam, updated " << Updated << "\n";
                 std::cout << "Help | Command line options\n"
                     << "\n";
                 std::cout << "USAGE: " << argv[0] << " [OPTIONS]\n"
@@ -76,7 +65,6 @@ int main(int argc, char** argv)
                 std::cout << "OPTIONS:\n";
                 std::cout << "      --help : Show this screen.\n";
                 std::cout << "      --verbose : Print extra info that may help with troubleshooting.\n";
-                std::cout << "      --no-colors : Don't use colors in output (and disable progress bar).\n";
                 std::cout << "  -l, --licenses : Print game license download help.\n";
                 std::cout << "\n";
                 std::cout << "Extra options you shouldn't need to use:\n";
@@ -88,16 +76,6 @@ int main(int argc, char** argv)
             else if (strcmp(argv[i], "--verbose") == 0) {
                 misc_debug = true;
                 dbgs.enabled(true);
-            }
-            else if (strcmp(argv[i], "--no-colors") == 0) {
-                // also disables progress bar
-                nocolors = true;
-                RESET = "";
-                BLUE_INFO = "";
-                BLUE = "";
-                RED = "";
-                YELLOW = "";
-                GREEN = "";
             }
             else if ( strcmp(argv[i], "-l") == 0 ||
                       strcmp(argv[i], "--licenses") == 0 )
@@ -115,20 +93,15 @@ int main(int argc, char** argv)
         }
     }
 
-    if (!nocolors)
-    {
-        // Enable VT100 Emu
-        DWORD ConsoleMode;
-        GetConsoleMode(
-            GetStdHandle(STD_OUTPUT_HANDLE),
-            &ConsoleMode
-        );
-        SetConsoleMode(
-            GetStdHandle(STD_OUTPUT_HANDLE),
-            ConsoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING
-        );
-        SetConsoleOutputCP(437);
-    }
+    // Enable VT100 Emu
+    DWORD ConsoleMode;
+    GetConsoleMode(GetStdHandle(STD_OUTPUT_HANDLE), &ConsoleMode);
+    SetConsoleMode(
+        GetStdHandle(STD_OUTPUT_HANDLE),
+        ConsoleMode | ENABLE_VIRTUAL_TERMINAL_PROCESSING
+    );
+    SetConsoleOutputCP(437);
+
 
     if (print_links_then_exit)
     {
@@ -173,7 +146,7 @@ int main(int argc, char** argv)
     std::system("title DOOMdumper");
     std::cout << BLUE_INFO << "                                                  " << RESET << "\n";
     std::cout << BLUE_INFO << "  DOOMdumper                                      " << RESET << "\n";
-    std::cout << BLUE_INFO << "    by SEWsam, updated " << UPDATED << "                 " << RESET << "\n";
+    std::cout << BLUE_INFO << "    by SEWsam, updated " << Updated << "                 " << RESET << "\n";
     std::cout << BLUE_INFO << "                                                  " << RESET << "\n";
     std::cout << BLUE_INFO << "    DOOM ETERNAL MODS ON GAME PASS                " << RESET << "\n";
     std::cout << BLUE_INFO << "                                                  " << RESET << "\n";
@@ -188,7 +161,7 @@ int main(int argc, char** argv)
               << "This program will allow you to utilize EternalModInjector, with the\n";
     std::cout << "gamepass/Windows Store version of DOOM Eternal.\n";
     std::cout << "Your game will be copied to a location of your choosing, then the\n";
-    std::cout << "original copy will be removed. You'll need " << RED << formattedSize(MIN_FREE)
+    std::cout << "original copy will be removed. You'll need " << RED << formattedSize(Min_Free)
               << YELLOW << " free for this.\n" << RESET;
 
     std::cout << std::endl;
