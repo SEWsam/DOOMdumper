@@ -16,8 +16,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 */
-
-/* Shared Header File */
 #pragma once
 
 #include <iostream>
@@ -25,17 +23,11 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #include <filesystem>
 #include <Windows.h>
 #include <winrt/Windows.ApplicationModel.h>
-#include <winrt/Windows.Management.Deployment.h>
 
 #include "DebugTools.hpp"
 
 namespace fs = std::filesystem;
-
-namespace winrt
-{
-	using namespace Windows::ApplicationModel;
-	using namespace Windows::Management::Deployment;
-}
+namespace winrt { using namespace Windows::ApplicationModel; }
 
 // Global Version constants
 extern const std::string UPDATED;
@@ -54,26 +46,6 @@ extern std::string GREEN;
 
 extern bool misc_debug; 
 extern DebugStream dbgs;
-
-
-/* FileSys.cpp */
-void extractInjector(const std::string& path);
-bool getDefaultPath(fs::path& path);
-bool preparePath(fs::path& path, uint64_t& free);
-std::string getPath();
-
-/* Packages.cpp */
-std::optional<winrt::Package> getPackage(const std::wstring pfn = L"BethesdaSoftworks.DOOMEternal-PC_3275kfvn8vcwc");
-bool validatePackage(const winrt::Package& pkg);
-bool removePackage(const winrt::Package& pkg);
-bool registerPackage(const std::wstring wpath);
-std::string getRegisteredPath(const winrt::Package& pkg);
-
-/* Processes.cpp */
-bool killProcessByPid(const DWORD pid);
-bool matchProcessName(const DWORD pid, const WCHAR* match_name);
-int getPidByName(const WCHAR* name);
-int promptForProcess(const WCHAR* name = L"DOOMEternalx64vk.exe");
 
 /* UWPDUmperInterface.cpp */
 bool dumpWithStatus(const int pid, const std::string path, const bool verboseish);

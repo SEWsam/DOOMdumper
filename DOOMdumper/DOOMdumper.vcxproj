@@ -36,6 +36,9 @@
   <ItemGroup>
     <ClInclude Include="DebugTools.hpp" />
     <ClInclude Include="DOOMdumper.hpp" />
+    <ClInclude Include="FileSys.hpp" />
+    <ClInclude Include="Packages.hpp" />
+    <ClInclude Include="Processes.hpp" />
     <ClInclude Include="Utils.hpp" />
   </ItemGroup>
   <ItemGroup>

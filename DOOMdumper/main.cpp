@@ -28,6 +28,9 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 #include "DOOMdumper.hpp"
 #include "DebugTools.hpp"
+#include "Packages.hpp"
+#include "FileSys.hpp"
+#include "Processes.hpp"
 #include "Utils.hpp"
 
 
@@ -44,7 +47,7 @@ const std::string GAME_VERSION_STR
 const int GAME_VERSION_INT = std::stoi(boost::replace_all_copy(GAME_VERSION_STR, ".", ""));
 
 // ANSI color stuff
-bool nocolors = false;
+bool nocolors = false; // todo: why do i need this?? also these can be macros considering i already manually enbale vt100 emulation
 std::string RESET = "\033[0m";
 std::string BLUE_INFO = "\033[46m\033[38m";
 std::string BLUE = "\033[36m";
@@ -215,7 +218,7 @@ int main(int argc, char** argv)
     }
 
     std::string path;
-    std::optional<winrt::Package> pkg_result = getPackage();    // DOOMEternal blah blah blah //L"Shinen.TheTouryst_9y1eezmggh3fe"
+    std::optional<winrt::Package> pkg_result = getPackage();
     if (pkg_result) {
         winrt::Package pkg = *pkg_result;
 
