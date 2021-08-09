@@ -28,11 +28,12 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 #include "DOOMdumper.hpp"
 #include "DebugTools.hpp"
+#include "Utils.hpp"
 
 
 namespace fs = std::filesystem;
 
-const std::string UPDATED = "2021-08-04";
+const std::string UPDATED = "2021-08-07";
 const uint64_t MIN_FREE = 91268055040;  // Minimum space, in bytes, required to dump DOOM Eternal
 const winrt::PackageVersion GAME_VERSION{ 1, 0, 10, 0 };
 const std::string GAME_VERSION_STR
@@ -55,119 +56,10 @@ bool misc_debug = false;
 DebugStream dbgs;
 
 
-std::wstring stringToWstring(const std::string string)
-{
-    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &string[0], int(string.size()), NULL, 0);
-    std::wstring wstrTo(size_needed, 0);
-    MultiByteToWideChar(CP_UTF8, 0, &string[0], int(string.size()), &wstrTo[0], size_needed);
-    return wstrTo;
-}
-
-template <typename T, DWORD regT>
-int regSet(HKEY hive, const char* key, const char* value_name, T value, size_t value_size)
-{
-    HKEY hkey;
-
-    auto l_key = RegOpenKeyExA(hive, key, 0, KEY_SET_VALUE, &hkey);
-    if (l_key != EXIT_SUCCESS)
-    {
-        std::cerr << RED << "Failed to open registry.\n" << RESET;
-        return l_key;
-    }
- 
-    auto l_set_result = RegSetValueExA(hkey, value_name, 0, regT, (LPBYTE)value, value_size);
-    if (l_set_result != EXIT_SUCCESS)
-    {
-        std::cerr << RED << "Failed to write to registry.\n" << RESET;
-        return l_set_result;
-    }
-
-    auto l_closure_result = RegCloseKey(hkey);
-    if (l_closure_result != EXIT_SUCCESS)
-    {
-        std::cerr << RED << "Failed to close registry.\n" << RESET;
-    }
-
-    return l_closure_result;
-}
-
-bool confirmPrompt(const std::string msg)
-{
-    std::string input;
-    boost::locale::generator gen;
-    std::locale loc = gen("");
-    std::locale::global(loc);
-    std::cout.imbue(loc);
-
-    while (true) {
-        std::cout << msg << " (yes/no): ";
-        std::getline(std::cin, input);
-        if (boost::locale::to_lower(input) == "yes") {
-            return true;
-        }
-        else if (boost::locale::to_lower(input) == "no") {
-            return false;
-        }
-        else {
-            std::cout << "Please enter either 'yes' or 'no'.\n\n";
-        }
-    }
-
-}
-
-std::string formattedSize(uint64_t bytesize)
-{
-    const std::string units[] = {"B", "KB", "MB", "GB", "TB", "PB"};  // PB should be enough...
-
-    int i = 0;
-    while (bytesize > 1024) {
-        if (i > 6) {
-            break;
-        }
-        
-        bytesize /= 1024;
-        ++i;
-    }
-
-    std::string formatted = std::to_string(bytesize);
-    formatted += units[i];
-    return formatted;
-}
-
-inline void printLicenseHelp()
-{
-    std::cout << YELLOW << "\nPLEASE READ THIS -- When you next launch you game you **may** see that you \"Don't Own\" the campaign.\n"
-        << "If you DO own the campaign(s), you should enter the links below into a browser.\n\n"
-        << RESET;
-
-    std::cout << YELLOW << "Campaign: " << RESET << "ms-windows-store://pdp/?productId=9PC4V8W0VCWT\n"
-        << YELLOW << "TAG1:     " << RESET << "ms-windows-store://pdp/?productId=9P2MSCGJPKJC\n"
-        << YELLOW << "TAG2:     " << RESET << "ms-windows-store://pdp/?productId=9NB788JLSR97\n";
-}
-
-inline int enableDevMode()
-{
-    dbgs.dbgCout() << "Enabling devmode...\n";
-    int value = 1;
-    int result = regSet<int*, REG_DWORD>(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\AppModelUnlock",
-        "AllowDevelopmentWithoutDevLicense", &value, sizeof(DWORD));
-    dbgs.dbgCout() << "Enabling devmode should have finished.\n";
-    return result;
-}
-
-inline int storeDumpPath(std::string path)
-{
-    dbgs.dbgCout() << "Storing dump path...\n";
-    const char* c_path = path.c_str();
-    const size_t pathlen = strlen(c_path) * sizeof(char);
-    int result = regSet<const char*, REG_SZ>(HKEY_CURRENT_USER, "SOFTWARE\\DOOMdumper", "DumpPath", c_path, pathlen);
-    dbgs.dbgCout() << "Storing dump path should have finished\n";
-    return result;
-}
-
 int main(int argc, char** argv)
 {
     bool print_links_then_exit = false;
+    bool sync_with_reg_then_exit = false;
 
     if (argc > 1) {
         for (int i = 1; i < argc; i++ )
@@ -183,6 +75,9 @@ int main(int argc, char** argv)
                 std::cout << "      --verbose : Print extra info that may help with troubleshooting.\n";
                 std::cout << "      --no-colors : Don't use colors in output (and disable progress bar).\n";
                 std::cout << "  -l, --licenses : Print game license download help.\n";
+                std::cout << "\n";
+                std::cout << "Extra options you shouldn't need to use:\n";
+                std::cout << "      --sync-with-reg : Stores/replaces the currently registered path in the registry.\n";
 
                 std::system("pause");
                 return 1;
@@ -205,6 +100,9 @@ int main(int argc, char** argv)
                       strcmp(argv[i], "--licenses") == 0 )
             {
                 print_links_then_exit = true;
+            }
+            else if (strcmp(argv[i], "--sync-with-reg") == 0) {
+                sync_with_reg_then_exit = true;
             }
             else {
                 std::cout << "'" << argv[i] << "' is not a valid option. Use option '--help' for more details.\n";
@@ -234,6 +132,39 @@ int main(int argc, char** argv)
         printLicenseHelp();
         std::system("pause");
         return 0;
+    }
+
+    if (sync_with_reg_then_exit)
+    {
+        int ret = 0;
+        std::string path;
+        std::optional<winrt::Package> pkg_result = getPackage();
+
+        if (pkg_result) {
+            winrt::Package pkg = *pkg_result;
+            path = getRegisteredPath(pkg);
+            std::cout << YELLOW << "Registered Install path: " << path << RESET << "\n";
+            int result = storeDumpPath(path);
+
+            if (result == ERROR_ACCESS_DENIED) {
+                std::cerr << RED << "ERROR: You need to run this as admin.\n" << RESET;
+            }
+            else if (result != 0) {
+                std::cerr << RED << "ERROR: code " << result << RESET << "\n";
+            }
+            else {
+                std::cout << GREEN << "Synced registry data with currently registered DOOM Eternal installation!\n" << RESET;
+            }
+        }
+        else {
+            std::cout << RED << "Failed to get package object for DOOM Eternal. Is it not installed?\n";
+            std::cout << "Exiting...\n" << RESET;
+            std::system("pause");
+            ret = 1;
+        }
+
+        std::system("pause");
+        return ret;
     }
 
     std::system("title DOOMdumper");
@@ -316,7 +247,6 @@ int main(int argc, char** argv)
             // this helps chrispy and probably me in the future
             storeDumpPath(path);
            
-
             // So doomdumper knows that this folder contains a sideloaded DOOMEternal, and that it is ok to replace later on.
             fs::path install_marker_path(path);
             install_marker_path /= "doom_dumper";
@@ -359,7 +289,7 @@ int main(int argc, char** argv)
         std::system("pause");
         return 1;
     }
-    storeDumpPath(path);
+
     std::cout << "Extracting EternalModInjector...\n";
     extractInjector(path);
 

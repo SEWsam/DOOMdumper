@@ -28,6 +28,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Packages.cpp" />
     <ClCompile Include="Processes.cpp" />
+    <ClCompile Include="Utils.cpp" />
     <ClCompile Include="UWPDumperInterface.cpp">
       <EnableModules Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</EnableModules>
     </ClCompile>
@@ -35,6 +36,7 @@
   <ItemGroup>
     <ClInclude Include="DebugTools.hpp" />
     <ClInclude Include="DOOMdumper.hpp" />
+    <ClInclude Include="Utils.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="idea.txt" />

@@ -56,10 +56,6 @@ extern bool misc_debug;
 extern DebugStream dbgs;
 
 
-/* main.cpp */
-bool confirmPrompt(const std::string msg);
-std::string formattedSize(uint64_t bytesize);
-
 /* FileSys.cpp */
 void extractInjector(const std::string& path);
 bool getDefaultPath(fs::path& path);

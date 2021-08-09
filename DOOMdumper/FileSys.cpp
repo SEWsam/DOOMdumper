@@ -24,6 +24,7 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 #include <zipper/unzipper.h>
 
 #include "DOOMdumper.hpp"
+#include "Utils.hpp"
 
 
 void extractInjector(const std::string& path) // Note: there cannot be a blank 'Mods' folder in the zip.
