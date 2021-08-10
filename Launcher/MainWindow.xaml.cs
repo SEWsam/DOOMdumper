@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace Launcher
 {
@@ -23,6 +24,16 @@ namespace Launcher
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Launch_Click(object sender, RoutedEventArgs e)
+        {
+            string exepath = Process.GetCurrentProcess().MainModule.FileName;
+            string exedir = System.IO.Path.GetDirectoryName(exepath);
+
+            string path = System.IO.Path.Combine(exedir, "DOOMEternalx64vk.exe");
+            string args = "";
+            Process.Start(path, args);
         }
     }
 }

@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Launcher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Launcher" Height="450" Width="800">
     <Grid>
-        
+        <Button Content="Launch" HorizontalAlignment="Left" Margin="363,201,0,0" VerticalAlignment="Top" Width="75" Click="Launch_Click"/>
+
     </Grid>
 </Window>
