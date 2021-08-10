@@ -24,4 +24,4 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 bool killProcessByPid(const DWORD pid);
 bool matchProcessName(const DWORD pid, const WCHAR* match_name);
 int getPidByName(const WCHAR* name);
-int promptForProcess(const WCHAR* name = L"DOOMEternalx64vk.exe");
+int promptForProcess(const WCHAR* name);

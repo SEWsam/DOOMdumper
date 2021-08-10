@@ -55,8 +55,6 @@ public:
 
     std::string String() const;
     int Int() const;
-
-    //todo: add operators
 };
 
 std::wstring stringToWstring(const std::string string);

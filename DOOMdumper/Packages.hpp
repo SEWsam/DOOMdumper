@@ -23,8 +23,8 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 namespace winrt { using namespace Windows::ApplicationModel; }
 
 
-std::optional<winrt::Package> getPackage(const std::wstring pfn = L"BethesdaSoftworks.DOOMEternal-PC_3275kfvn8vcwc");
-bool validatePackage(const winrt::Package& pkg);
+std::optional<winrt::Package> getPackage(const std::wstring pfn);
+bool validatePackage(const winrt::Package & pkg);
 bool removePackage(const winrt::Package& pkg);
 bool registerPackage(const std::wstring wpath);
 std::string getRegisteredPath(const winrt::Package& pkg);

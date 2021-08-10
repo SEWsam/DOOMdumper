@@ -184,7 +184,7 @@ int main(int argc, char** argv)
     }
 
     std::string path;
-    std::optional<winrt::Package> pkg_result = getPackage();
+    std::optional<winrt::Package> pkg_result = getPackage(L"BethesdaSoftworks.DOOMEternal-PC_3275kfvn8vcwc");
     if (pkg_result) {
         winrt::Package pkg = *pkg_result;
 
@@ -204,7 +204,7 @@ int main(int argc, char** argv)
             }
 
             int pid;
-            pid = promptForProcess();
+            pid = promptForProcess(L"DOOMEternalx64vk.exe");
 
             std::cout << "About to dump game. This can take " << RED << "20-40" << RESET << " minutes depending on if you have a HDD or SSD.\n";
             if (!confirmPrompt("Proceed?")) {
