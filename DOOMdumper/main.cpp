@@ -107,7 +107,7 @@ int main(int argc, char** argv)
     {
         int ret = 0;
         std::string path;
-        std::optional<winrt::Package> pkg_result = getPackage();
+        std::optional<winrt::Package> pkg_result = getPackage(L"BethesdaSoftworks.DOOMEternal-PC_3275kfvn8vcwc");
 
         if (pkg_result) {
             winrt::Package pkg = *pkg_result;
