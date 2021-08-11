@@ -15,6 +15,7 @@ namespace DOOMdumperLauncher
     /// </summary>
     public static class Launcher
     {
+        public static string doom_args;
         public static Version latest_version;
         public static Version dumped_version = new Version(ConfigurationManager.AppSettings.Get("GameVersion"));
 

@@ -28,7 +28,7 @@ namespace DOOMdumperLauncher
 
         private void Launch_click(object sender, RoutedEventArgs e)
         {
-            Launcher.StartDEternal();
+            Launcher.StartDEternal(Launcher.doom_args);
             Close();
             System.Threading.Thread.Sleep(1000);
             return;
