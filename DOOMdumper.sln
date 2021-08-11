@@ -19,7 +19,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UWPInjector", "UWPDumper-li
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zipper", "zipper\zipper\zipper.vcxproj", "{17A6903C-B96F-41FE-8D0C-60BA69F01E6D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{F5A3CEE6-F66E-4DA5-9F60-6756E8863275}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DOOMdumperLauncher", "DOOMdumperLauncher\DOOMdumperLauncher.csproj", "{F5A3CEE6-F66E-4DA5-9F60-6756E8863275}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

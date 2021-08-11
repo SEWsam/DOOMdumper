@@ -1,0 +1,30 @@
+﻿<Window x:Class="DOOMdumperLauncher.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DOOMdumperLauncher"
+        mc:Ignorable="d"
+        Title="Launcher" SizeToContent="WidthAndHeight">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="18 5 25 5" TextWrapping="Wrap" Text="An update is available for DOOM Eternal" VerticalAlignment="Top"/>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="Launch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="25 10 25 10" x:Name="LaunchButton" Click="Launch_click" IsEnabled="True" />
+            <Button Grid.Column="1" Content="Update" HorizontalAlignment="Right" VerticalAlignment="Top" Width="75" Margin="25 10 25 10" x:Name="UpdateButton" Click="Update_click" IsEnabled="True" IsDefault="True" />
+        </Grid>
+    </Grid>
+</Window>
