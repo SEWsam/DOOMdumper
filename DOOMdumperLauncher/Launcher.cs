@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Management.Deployment;
+using Windows.Foundation;
 
 namespace DOOMdumperLauncher
 {
@@ -48,7 +50,29 @@ namespace DOOMdumperLauncher
 
         public static void UninstallDEternal()
         {
-            return;
+            PackageManager packageManager = new PackageManager();
+
+            var deploymentOperation = packageManager.RemovePackageAsync("BethesdaSoftworks.DOOMEternal-PC_1.0.10.0_x64__3275kfvn8vcwc");
+
+            // Check the status of the operation
+            if (deploymentOperation.Status == AsyncStatus.Error)
+            {
+                DeploymentResult deploymentResult = deploymentOperation.GetResults();
+                Console.WriteLine("Error code: {0}", deploymentOperation.ErrorCode);
+                Console.WriteLine("Error text: {0}", deploymentResult.ErrorText);
+            }
+            else if (deploymentOperation.Status == AsyncStatus.Canceled)
+            {
+                Console.WriteLine("Removal canceled");
+            }
+            else if (deploymentOperation.Status == AsyncStatus.Completed)
+            {
+                Console.WriteLine("Removal succeeded");
+            }
+            else
+            {
+                Console.WriteLine("Removal status unknown");
+            }
         }
     }
 }

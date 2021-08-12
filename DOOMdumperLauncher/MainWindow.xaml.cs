@@ -43,7 +43,7 @@ namespace DOOMdumperLauncher
             if (MessageBox.Show(message, title, buttons, icon) == MessageBoxResult.Yes)
             {
                 Launcher.UninstallDEternal();
-                MessageBox.Show("not implemented lol");
+                MessageBox.Show("doom eternal should probably de-register when you exit. still figuring out how to handle deleting the installation.");
             }
         }
     }
