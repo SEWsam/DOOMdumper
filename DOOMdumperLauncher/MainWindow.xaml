@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DOOMdumperLauncher"
         mc:Ignorable="d"
-        Title="Launcher" SizeToContent="WidthAndHeight">
+        Title="Launcher" SizeToContent="WidthAndHeight" ResizeMode="CanMinimize" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -14,17 +14,22 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="1" HorizontalAlignment="Left" Margin="18 5 25 5" TextWrapping="Wrap" Text="An update is available for DOOM Eternal" VerticalAlignment="Top"/>
+            <TextBlock Grid.Column="1" Margin="10 10 10 10" TextWrapping="Wrap" TextAlignment="Center">
+                <Run Text="Update version" /> <Run Text="{Binding Path=LatestVersion}"/> 
+                <Run Text="is available for DOOM Eternal."/>
+                <LineBreak/>
+                <Run Text="You are on version"/> <Run Text="{Binding Path=DumpedVersion}" />
+            </TextBlock>
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="#FFF0F0F0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="Launch" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="25 10 25 10" x:Name="LaunchButton" Click="Launch_click" IsEnabled="True" />
-            <Button Grid.Column="1" Content="Update" HorizontalAlignment="Right" VerticalAlignment="Top" Width="100" Margin="25 10 25 10" x:Name="UpdateButton" Click="Update_click" IsEnabled="True" IsDefault="True" />
+            <Button Grid.Column="0" Content="_Launch without updating" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="20 10 10 10" x:Name="LaunchButton" Click="Launch_click" IsEnabled="True" />
+            <Button Grid.Column="1" Content="_Update" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="10 10 20 10" x:Name="UpdateButton" Click="Update_click" IsEnabled="True" IsDefault="True" />
         </Grid>
     </Grid>
 </Window>

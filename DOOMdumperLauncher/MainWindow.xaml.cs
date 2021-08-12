@@ -21,16 +21,23 @@ namespace DOOMdumperLauncher
     /// </summary>
     public partial class MainWindow : Window
     {
+        public string LatestVersion { get; set; }
+        public string DumpedVersion { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            LatestVersion = Launcher.latest_version.ToString();
+            DumpedVersion = Launcher.dumped_version.ToString();
+            // this is supposed to be bad but my implementation is minimal so i dont care rn
+            DataContext = this;  
         }
 
         private void Launch_click(object sender, RoutedEventArgs e)
         {
             Launcher.StartDEternal(Launcher.doom_args);
             Close();
-            System.Threading.Thread.Sleep(1000);
+            System.Threading.Thread.Sleep(5000);
             return;
         }
 
