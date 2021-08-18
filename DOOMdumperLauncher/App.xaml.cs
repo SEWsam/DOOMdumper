@@ -15,7 +15,6 @@ namespace DOOMdumperLauncher
     /// </summary>
     public partial class App : Application
     {
-        // this doesn't do much different than the default setup. just placeholder code really
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);

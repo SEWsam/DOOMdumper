@@ -21,15 +21,15 @@ namespace DOOMdumperLauncher
         public static Version latest_version;
         public static Version dumped_version = new Version(ConfigurationManager.AppSettings.Get("GameVersion"));
 
+        static string exepath = Process.GetCurrentProcess().MainModule.FileName;
+        public static string exedir = Path.GetDirectoryName(exepath);
+
         /// <summary>
         /// Start a DOOMEternalx64vk.exe process, 
         /// assuming the exe is in the same dir as the launcher exe
         /// </summary>
         public static void StartDEternal(string args="")
         {
-            string exepath = Process.GetCurrentProcess().MainModule.FileName;
-            string exedir = Path.GetDirectoryName(exepath);
-
             string path = Path.Combine(exedir, "DOOMEternalx64vk.exe");
             Process.Start(path, args);
         }
@@ -50,6 +50,7 @@ namespace DOOMdumperLauncher
 
         public static void UninstallDEternal()
         {
+
             PackageManager packageManager = new PackageManager();
 
             var deploymentOperation = packageManager.RemovePackageAsync("BethesdaSoftworks.DOOMEternal-PC_1.0.10.0_x64__3275kfvn8vcwc");
