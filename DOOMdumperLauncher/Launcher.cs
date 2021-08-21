@@ -50,7 +50,18 @@ namespace DOOMdumperLauncher
 
         public static void UninstallDEternal()
         {
-
+            /* todo: idea -- requirements for game deletion mode:
+             * first launcher arg must be --uninstall (`-l "--uninstall"`) 
+             * second arg must be --path, with argument after (`-l "--uninstall --path 'E:\Games\DOOMEternal'"`)
+             * Deletion will not proceed if DOOMEternalx64vk.exe is present and if `exedir` matches input path.
+             * 
+             * Two failure outcomes of the above requirements:
+             * 1. If ANY args are passed along with any requirements not met, nothing will happen.
+             * 2. If no args are passed, along with any other requirements not met, we will create 
+             *    a temp copy of this EXE, move it into null with the DELAY_UNTIL_REBOOT flag, then spawn a
+             *    proc of our temp EXE (with the required args) and exit our orig proc. Now, from the
+             *    temp EXE, we will delete the provided directory, de-register DOOM Eternal's UWP Package, and exit.
+             */
             PackageManager packageManager = new PackageManager();
 
             var deploymentOperation = packageManager.RemovePackageAsync("BethesdaSoftworks.DOOMEternal-PC_1.0.10.0_x64__3275kfvn8vcwc");
