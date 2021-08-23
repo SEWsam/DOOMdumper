@@ -29,7 +29,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Grid.Column="0" Content="_Launch without updating" HorizontalAlignment="Left" VerticalAlignment="Top" Width="150" Margin="20 10 10 10" x:Name="LaunchButton" Click="Launch_click" IsEnabled="True" />
-            <Button Grid.Column="1" Content="_Update" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="10 10 20 10" x:Name="UpdateButton" Click="Update_click" IsEnabled="False" IsDefault="True" />
+            <Button Grid.Column="1" Content="_Update" HorizontalAlignment="Right" VerticalAlignment="Top" Width="150" Margin="10 10 20 10" x:Name="UpdateButton" Click="Update_click" IsEnabled="True" IsDefault="True" />
         </Grid>
     </Grid>
 </Window>

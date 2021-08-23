@@ -18,11 +18,14 @@ namespace DOOMdumperLauncher
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
+
 #if DEBUG
             bool waiting = true;
             while (waiting) { continue; }
 #endif
+
             bool skip_updates = bool.Parse(ConfigurationManager.AppSettings.Get("SkipUpdates"));
+
 
             var launcher_args = new List<string>();
             var doom_args = new List<string>();
@@ -30,15 +33,38 @@ namespace DOOMdumperLauncher
             // arg parsing
             if (e.Args != null && e.Args.Length > 0)
             {
-                // this is for the command line
-                bool l_parse = true;
+                // Uninstaller mode bypasses normal arg parsing
+                if (e.Args[0].Equals("--uninstall"))
+                {
+                    string path = "";
+                    if (e.Args.Length != 3)
+                    {
+                        Shutdown(1);
+                        return;
+                    }
+
+                    if (e.Args[1].Equals("--path"))
+                    {
+                        path = e.Args[2];
+                    }
+                    else
+                    {
+                        Shutdown(1);
+                        return;
+                    }
+
+                    int ret = Launcher.UninstallDEternal(path);
+
+                    Shutdown(ret);
+                }
+
+                // base command line
                 for (int i = 0; i < e.Args.Length; i++)
                 {
-                    if (e.Args[i].Equals("-l") && l_parse)
+                    if (i == 0 && e.Args[i].Equals("-l"))
                     {
                         launcher_args = e.Args[i + 1].Split(' ').ToList();
                         i++;
-                        l_parse = false;
                         continue;
                     }
                     else
@@ -54,12 +80,16 @@ namespace DOOMdumperLauncher
                     {
                         skip_updates = true;
                     }
+                    else if (launcher_args[i].Equals("--uninstall"))
+                    {
+                        //ahhhhh
+                        return;
+                    }
                 }
 
             }
             Launcher.doom_args = string.Join(" ", doom_args.ToArray());
-            
-            
+
 
             // todo: exception handling if config is invalid
             bool update_available = false;

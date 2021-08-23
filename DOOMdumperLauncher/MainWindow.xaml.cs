@@ -43,14 +43,19 @@ namespace DOOMdumperLauncher
 
         private void Update_click(object sender, RoutedEventArgs e)
         {
-            string message = "Are you sure you want to uninstall DOOM Eternal in order to update it?";
+            string message = "Are you sure you want to UNINSTALL DOOM Eternal in order to update it?";
             string title = "DOOM Eternal Update";
             MessageBoxButton buttons = MessageBoxButton.YesNo;
             MessageBoxImage icon = MessageBoxImage.Warning;
             if (MessageBox.Show(message, title, buttons, icon) == MessageBoxResult.Yes)
             {
-                Launcher.UninstallDEternal();
-                MessageBox.Show("doom eternal should probably de-register when you exit. still figuring out how to handle deleting the installation.");
+                Dispatcher.Invoke(() => LaunchButton.IsEnabled = false);
+                Dispatcher.Invoke(() => UpdateButton.IsEnabled = false);
+                // todo: some sort of way of notifying the user that something is happening.
+
+                Task.Factory.StartNew(() => Launcher.InitUninstaller())
+                    .ContinueWith(t => Close());
+                return;
             }
         }
     }
