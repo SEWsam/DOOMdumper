@@ -54,7 +54,7 @@ namespace DOOMdumperLauncher
                 // todo: some sort of way of notifying the user that something is happening.
 
                 Task.Factory.StartNew(() => Launcher.InitUninstaller())
-                    .ContinueWith(t => Close());
+                    .ContinueWith(t => Environment.Exit(0));
                 return;
             }
         }

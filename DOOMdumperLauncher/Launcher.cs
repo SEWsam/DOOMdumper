@@ -70,11 +70,14 @@ namespace DOOMdumperLauncher
             string uninstaller_path = Path.Combine(uninstaller_dir, "Launcher.exe");
             Directory.CreateDirectory(uninstaller_dir);
 
-            Win32.CreateFileA(uninstaller_path, 
-                (uint)Win32.GenericAccessFlags.GENERIC_READ | (uint)Win32.GenericAccessFlags.GENERIC_WRITE, 
-                (uint)Win32.FileShareFlags.FILE_SHARE_DELETE, 
+            File.Copy(exe_path, uninstaller_path);
+
+            var uninstaller_handle = Win32.CreateFileA(
+                uninstaller_path, 
+                (uint)Win32.GenericAccessFlags.GENERIC_READ,
+                (uint)Win32.FileShareFlags.FILE_SHARE_READ | (uint)Win32.FileShareFlags.FILE_SHARE_DELETE, 
                 IntPtr.Zero, 
-                2, 
+                3, 
                 (uint)Win32.FileFlags.FILE_FLAG_DELETE_ON_CLOSE, 
                 IntPtr.Zero);
 
@@ -88,7 +91,8 @@ namespace DOOMdumperLauncher
             */
 
             Process.Start(uninstaller_path);
-            Thread.Sleep(750);
+            Thread.Sleep(200);
+            uninstaller_handle.Close();
             return;
         }
 
