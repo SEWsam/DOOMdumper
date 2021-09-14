@@ -35,7 +35,7 @@ along with DOOMdumper If not, see <https://www.gnu.org/licenses/>.
 
 namespace fs = std::filesystem;
 
-const GameVersion game_version(1, 0, 11, 0);
+const GameVersion game_version(1, 0, 12, 0);
 
 bool misc_debug = false;
 DebugStream dbgs;
