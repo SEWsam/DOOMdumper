@@ -38,8 +38,8 @@ namespace fs = std::filesystem;
 namespace winrt { using namespace Windows::ApplicationModel; }
 
 // Global Version constants
-inline constexpr char Updated[] = "2021-12-21";
-inline constexpr uint64_t Min_Free = 96636764160; // Minimum space, in bytes, required to dump DOOM Eternal
+inline constexpr char Updated[] = "2022-01-28";
+inline constexpr uint64_t Min_Free = 103079215104; // Minimum space, in bytes, required to dump DOOM Eternal
 
 extern const GameVersion game_version;
 
